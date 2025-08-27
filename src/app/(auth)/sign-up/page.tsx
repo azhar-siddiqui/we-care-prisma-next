@@ -1,10 +1,10 @@
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
 import { SignUpForm } from "./_components/signup-form";
@@ -24,15 +24,15 @@ export default function SignUpPage() {
         <SignUpForm />
       </CardContent>
       <CardFooter className="flex flex-col justify-center space-y-2">
-        <p className="text-md">
+         <Link
+          href="/sign-in"
+          className="text-muted-foreground text-sm sm:text-md text-center"
+        >
           Already have an account?{" "}
-          <Link
-            href="/login"
-            className="hover:text-primary hover:underline underline-offset-4"
-          >
+          <span className="text-primary font-medium hover:opacity-75 hover:text-primary hover:underline underline-offset-4 ">
             Sign In
-          </Link>
-        </p>
+          </span>
+        </Link>
         <p className="text-muted-foreground px-8 text-center text-sm">
           By creating an account, you agree to our{" "}
           <a

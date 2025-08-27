@@ -29,17 +29,15 @@ export const signUpAdminSchema = z.object({
   email: adminUserEmailSchema,
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters")
+    .min(4, "Password is required")
     .max(255, "Password must not exceed 255 characters"),
-  contactNumber: z.string().refine(
-    (val) => {
-      // If value is undefined or empty, consider it valid (since optional)
-      if (!val) return true;
-      // Call isValidPhoneNumber with the non-undefined value
-      return isValidPhoneNumber(val, { defaultCountry: "US" }); // Adjust defaultCountry as needed
-    },
-    { message: "Invalid phone number" }
-  ),
+  contactNumber: z
+    .string()
+    .min(1, "Contact number is required")
+    .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format")
+    .refine((val) => isValidPhoneNumber(val, { defaultCountry: "US" }), {
+      message: "Invalid phone number",
+    }),
   previousSoftware: z
     .string()
     .max(191, "Previous software must not exceed 191 characters")

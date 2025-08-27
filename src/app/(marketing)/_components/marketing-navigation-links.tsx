@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function MarketingNavigationLink() {
   return (
-    <Link href="/login" className={cn(buttonVariants({ variant: "default" }))}>
+    <Link href="/sign-in" className={cn(buttonVariants({ variant: "default" }))}>
       Login
     </Link>
   );

@@ -1,17 +1,17 @@
 import { Button } from "@/components/ui/button";
 import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
@@ -26,6 +26,7 @@ type PhoneInputProps = Omit<
 > &
   Omit<RPNInput.Props<typeof RPNInput.default>, "onChange"> & {
     onChange?: (value: RPNInput.Value) => void;
+    inputClassName?: string;
   };
 
 const PhoneNumberInput = RPNInput.default;
@@ -61,10 +62,10 @@ PhoneInput.displayName = "PhoneInput";
 
 const InputComponent = React.forwardRef<
   HTMLInputElement,
-  React.ComponentProps<"input">
->(({ className, ...props }, ref) => (
+  React.ComponentProps<"input"> & { inputClassName?: string }
+>(({ className, inputClassName, ...props }, ref) => (
   <Input
-    className={cn("rounded-s-none rounded-e", className)}
+    className={cn("rounded-s-none rounded-e", className, inputClassName)}
     {...props}
     ref={ref}
   />

@@ -12,7 +12,7 @@ type props = {
 };
 
 export const AnimatedThemeToggler = ({ className }: props) => {
-  const { setTheme, resolvedTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -55,8 +55,8 @@ export const AnimatedThemeToggler = ({ className }: props) => {
 
   // Sync isDarkMode with resolvedTheme on mount
   useEffect(() => {
-    setIsDarkMode(resolvedTheme === "dark");
-  }, [resolvedTheme]);
+    setIsDarkMode(theme === "dark");
+  }, [theme]);
 
   return (
     <Button

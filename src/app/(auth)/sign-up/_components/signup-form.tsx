@@ -11,18 +11,18 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PhoneInput } from "@/components/ui/phone-input";
 import { cn } from "@/lib/utils";
 
 import { PasswordInput } from "@/components/ui/password-input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { signUpAdminSchema } from "@/validation/auth/admin/signup-validation";
 import { toast } from "sonner";
 
@@ -39,24 +39,27 @@ export const SignUpForm = ({
   const form = useForm<z.infer<typeof signUpAdminSchema>>({
     resolver: zodResolver(signUpAdminSchema),
     defaultValues: {
-      labName: "medicare",
-      ownerName: "Azhar",
-      email: "azhartsiddiqui@gmail.com",
-      password: "qwer1234",
+      labName: "",
+      ownerName: "",
+      email: "",
+      password: "",
       contactNumber: "",
-      previousSoftware: "patho",
+      previousSoftware: "",
     },
   });
 
-  async function onSubmit(value: z.infer<typeof signUpAdminSchema>) {
+  function onSubmit(value: z.infer<typeof signUpAdminSchema>) {
+    console.log("value", value);
+    
     startTransition(async () => {
       try {
-        console.log(value);
+        // Perform navigation
         router.push(`/verify?email=${encodeURIComponent(value.email)}`);
+        // Reset form after navigation
         form.reset();
       } catch (error) {
-        console.log("An error occurred===>", error);
-        toast.error(`Failed to submit the form. Please try again. ${error}`);
+        console.log("An error occurred while Sign Up===>", error);
+        toast.error(`${error}`);
       }
     });
   }
@@ -143,9 +146,8 @@ export const SignUpForm = ({
                   placeholder={
                     form.formState.errors.password?.message ?? "********"
                   }
-                  className={cn(
-                    form.formState.errors.password &&
-                      "placeholder:text-red-400 border border-red-400"
+                  inputClassName={cn(
+                    form.formState.errors.password && "placeholder:text-red-400"
                   )}
                 />
               </FormControl>
@@ -169,9 +171,13 @@ export const SignUpForm = ({
                   defaultCountry="IN"
                   autoComplete="off"
                   className={cn(
-                    "rounded-none",
                     form.formState.errors.contactNumber &&
-                      "placeholder:text-red-400"
+                      "border border-red-500 rounded-md"
+                  )}
+                  inputClassName={cn(
+                    "rounded-none ",
+                    form.formState.errors.contactNumber &&
+                      "placeholder:text-red-400 border-0"
                   )}
                 />
               </FormControl>
