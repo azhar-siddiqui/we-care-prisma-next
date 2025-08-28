@@ -1,6 +1,6 @@
 "use client";
-
 import { useRouter } from "next/navigation";
+
 import { HTMLAttributes, useTransition } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,10 +21,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
+import { signUpApiAction } from "@/actions/auth/sign-up";
 import { PasswordInput } from "@/components/ui/password-input";
 import { PhoneInput } from "@/components/ui/phone-input";
-import { signUpAdminSchema } from "@/validation/auth/admin/signup-validation";
+import { signUpAdminSchema } from "@/validation/auth/admin/signup";
 import { toast } from "sonner";
+
 
 type SignUpFormProps = HTMLAttributes<HTMLFormElement>;
 
@@ -33,33 +35,28 @@ export const SignUpForm = ({
   ...props
 }: Readonly<SignUpFormProps>) => {
   const router = useRouter();
-
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof signUpAdminSchema>>({
     resolver: zodResolver(signUpAdminSchema),
     defaultValues: {
-      labName: "",
-      ownerName: "",
-      email: "",
-      password: "",
+      labName: "Medicare Pathology Lab",
+      ownerName: "Azhar",
+      email: "azhartsiddiqui@gmail.com",
+      password: "AzharT@1998",
       contactNumber: "",
       previousSoftware: "",
     },
   });
 
   function onSubmit(value: z.infer<typeof signUpAdminSchema>) {
-    console.log("value", value);
-    
     startTransition(async () => {
-      try {
-        // Perform navigation
+      const response = await signUpApiAction(value);
+      if (response.success) {
+        toast.success(`${response.message}`);
         router.push(`/verify?email=${encodeURIComponent(value.email)}`);
-        // Reset form after navigation
-        form.reset();
-      } catch (error) {
-        console.log("An error occurred while Sign Up===>", error);
-        toast.error(`${error}`);
+      } else {
+        toast.error(`${response.error}`);
       }
     });
   }

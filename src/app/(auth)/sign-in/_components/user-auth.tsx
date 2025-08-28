@@ -22,7 +22,7 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
 import { PasswordInput } from "@/components/ui/password-input";
-import { loginSchema } from "@/validation/auth/admin/login-validation";
+import { loginSchema } from "@/validation/auth/admin/login";
 import { LoaderCircle } from "lucide-react";
 
 import { toast } from "sonner";

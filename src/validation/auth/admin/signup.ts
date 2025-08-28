@@ -1,5 +1,4 @@
 import { ALLOWED_EMAIL_DOMAINS } from "@/@types/domain";
-import { isValidPhoneNumber } from "react-phone-number-input";
 import { z } from "zod";
 
 export const adminUserEmailSchema = z
@@ -33,11 +32,11 @@ export const signUpAdminSchema = z.object({
     .max(255, "Password must not exceed 255 characters"),
   contactNumber: z
     .string()
-    .min(1, "Contact number is required")
-    .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format")
-    .refine((val) => isValidPhoneNumber(val, { defaultCountry: "US" }), {
-      message: "Invalid phone number",
-    }),
+    .min(12, "Contact number is required with county code eg. (+91 8808808808)")
+    .regex(/^\+?[1-9]\d{1,12}$/, "Invalid phone number format"),
+    // .refine((val) => isValidPhoneNumber(val, { defaultCountry: "US" }), {
+    //   message: "Invalid phone number",
+    // }),
   previousSoftware: z
     .string()
     .max(191, "Previous software must not exceed 191 characters")

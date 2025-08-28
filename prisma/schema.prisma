@@ -21,10 +21,11 @@ model Admin {
   ownerName        String   @db.VarChar(191)
   email            String   @unique @db.VarChar(191)
   password         String
-  contactNumber    String   @db.VarChar(191)
+  contactNumber    String   @unique @db.VarChar(191)
   previousSoftware String?  @db.VarChar(191)
   role             Role     @default(ADMIN)
   users            User[]
+  isVerified       Boolean  @default(false)
   isTrialUsed      Boolean  @default(false)
   isBlock          Boolean  @default(false)
   createdAt        DateTime @default(now())

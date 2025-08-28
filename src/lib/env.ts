@@ -5,11 +5,13 @@ export const env = createEnv({
   server: {
     APP_ENV: z.string().min(1),
     DATABASE_URL: z.url(),
+    RESEND_API_KEY: z.string().min(1),
     JWT_SECRET: z.string().min(1),
     ACCESS_TOKEN_SECRET: z.string().min(1),
     REFRESH_TOKEN_SECRET: z.string().min(1),
     UPSTASH_REDIS_REST_URL: z.url(),
     UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
+    REDIS_TEMP_ADMIN_TTL: z.string(),
   },
 
   /**

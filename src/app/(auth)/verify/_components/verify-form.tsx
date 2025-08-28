@@ -1,37 +1,38 @@
-"use client";
-import { Button } from "@/components/ui/button";
+'use client';
+import { Button } from '@/components/ui/button';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
-import { InputOTP, InputOTPSlot } from "@/components/ui/input-otp";
-import { LoaderCircle } from "lucide-react";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { useTransition } from "react";
+import { verifyEmailApiAction } from '@/actions/auth/verify-email';
+import { InputOTP, InputOTPSlot } from '@/components/ui/input-otp';
+import { LoaderCircle } from 'lucide-react';
+import { redirect, useRouter, useSearchParams } from 'next/navigation';
 
 const formSchema = z.object({
   otp: z.string().min(5, {
-    message: "Your one-time password must be 5 characters.",
+    message: 'Your one-time password must be 5 characters.',
   }),
 });
 
 export const VerifyForm = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const email = searchParams.get("email") || "";
+  const email = searchParams.get('email') || '';
 
   // Instantly redirect to /sign-up if email is missing
-  if (!email || email === "") {
-    redirect("/sign-up");
+  if (!email || email === '') {
+    redirect('/sign-up');
   }
 
   const [isPending, startTransition] = useTransition();
@@ -39,29 +40,26 @@ export const VerifyForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      otp: "",
+      otp: '',
     },
   });
 
   async function onSubmit({ otp }: z.infer<typeof formSchema>) {
-    try {
-      const verifyEmail = {
-        email,
-        otp,
-      };
-      console.log("verifyEmail", verifyEmail);
-      startTransition(async () => {
-        try {
-          router.push("/sign-up");
-          form.reset();
-        } catch (error) {
-          console.log("An error occurred===>", error);
-          toast.error(`Failed to submit the form. Please try again. ${error}`);
-        }
-      });
-    } catch (error) {
-      toast.error(`Failed to submit the form. Please try again. ${error}`);
-    }
+    const verifyEmail = {
+      email,
+      otp,
+    };
+    startTransition(async () => {
+      const response = await verifyEmailApiAction(verifyEmail);
+      if (response.success) {
+        toast.success(`${response.message}`);
+        router.push('/sign-in');
+        form.reset();
+      } else {
+        toast.error(`${response.error}`);
+        form.reset();
+      }
+    });
   }
 
   return (

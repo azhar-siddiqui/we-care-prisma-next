@@ -1,0 +1,28 @@
+{
+  // ✅ General Editor Settings
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+
+  // ✅ Files
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  // ✅ Prettier
+  "prettier.singleQuote": true,
+  "prettier.semi": true,
+  "prettier.trailingComma": "all",
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.printWidth": 100,
+
+  // ✅ ESLint
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
+}
