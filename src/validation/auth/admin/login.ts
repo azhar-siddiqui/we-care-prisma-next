@@ -1,10 +1,10 @@
-import { z } from "zod";
-import { adminUserEmailSchema } from "./signup";
+import { z } from 'zod';
+import { adminUserEmailSchema } from './signup';
 
-export const loginSchema = z.object({
+export const signInSchema = z.object({
   email: adminUserEmailSchema,
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(255, "Password must not exceed 255 characters"),
+    .min(6, 'Password must be at least 6 characters')
+    .max(255, 'Password must not exceed 255 characters'),
 });

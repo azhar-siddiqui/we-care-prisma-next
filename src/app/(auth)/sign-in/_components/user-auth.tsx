@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { HTMLAttributes, useTransition } from "react";
+import Link from 'next/link';
+import { HTMLAttributes, useTransition } from 'react';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -15,45 +15,48 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { cn } from '@/lib/utils';
 
-import { PasswordInput } from "@/components/ui/password-input";
-import { loginSchema } from "@/validation/auth/admin/login";
-import { LoaderCircle } from "lucide-react";
+import { PasswordInput } from '@/components/ui/password-input';
+import { signInSchema } from '@/validation/auth/admin/login';
+import { LoaderCircle } from 'lucide-react';
 
-import { toast } from "sonner";
+import { signInApiAction } from '@/actions/auth/sign-in';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 type UserAuthFormProps = HTMLAttributes<HTMLFormElement>;
 
-export function UserAuthForm({
-  className,
-  ...props
-}: Readonly<UserAuthFormProps>) {
+export function UserAuthForm({ className, ...props }: Readonly<UserAuthFormProps>) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       // USER CREDENTIALS
-      // email: "jhondoe@wecare.com",
-      // password: "Jhon@123",
+      email: 'azhar@wecare.com',
+      password: '123456',
       // ADMIN CREDENTIALS
-      email: "azhartsiddiqui@gmail.com",
-      password: "qwer1234",
+      // email: 'azhartsiddiqui@gmail.com',
+      // password: 'AzharT@1998',
     },
   });
 
-  function onSubmit(data: z.infer<typeof loginSchema>) {
+  function onSubmit(value: z.infer<typeof signInSchema>) {
     startTransition(async () => {
-      try {
-        console.log("data", data);
-      } catch (error) {
-        console.log("An error occurred while login===>", error);
-        toast.error(`${error}`);
+      const response = await signInApiAction(value);
+      if (response.success) {
+        toast.success(`${response.message}`);
+        router.push('/dashboard');
+        form.reset();
+      } else {
+        toast.error(`${response.error}`);
+        form.reset();
       }
     });
   }
@@ -62,7 +65,7 @@ export function UserAuthForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("grid gap-6", className)}
+        className={cn('grid gap-6', className)}
         {...props}
       >
         <FormField
@@ -83,9 +86,7 @@ export function UserAuthForm({
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="flex items-center justify-between">
-                Password
-              </FormLabel>
+              <FormLabel className="flex items-center justify-between">Password</FormLabel>
               <FormControl>
                 <PasswordInput placeholder="********" {...field} />
               </FormControl>
@@ -110,11 +111,8 @@ export function UserAuthForm({
           Login
         </Button>
 
-        <Link
-          href="/sign-up"
-          className="text-muted-foreground text-sm sm:text-md text-center"
-        >
-          Dont have an account?{" "}
+        <Link href="/sign-up" className="text-muted-foreground text-sm sm:text-md text-center">
+          Dont have an account?{' '}
           <span className="text-primary font-medium hover:opacity-75 hover:text-primary hover:underline underline-offset-4 ">
             Sign up now
           </span>

@@ -1,8 +1,11 @@
-import { Admin, User } from "@/generated/prisma";
+import { Admin, User } from '@/generated/prisma';
 
 export type LoggedInAdminUser = Pick<
   Admin,
-  "id" | "email" | "labName" | "ownerName" | "role" | "isBlock" | "isTrialUsed"
+  'id' | 'email' | 'labName' | 'ownerName' | 'contactNumber' | 'role' | 'isBlock' | 'isTrialUsed'
 >;
 
-export type LoggedInUser = Pick<User, "id" | "username" | "name" | "role">;
+export type LoggedInUser = Pick<
+  User,
+  'id' | 'username' | 'name' | 'role' | 'contactNumber' | 'adminId'
+>;
