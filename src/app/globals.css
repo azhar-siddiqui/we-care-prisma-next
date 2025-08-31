@@ -1,11 +1,12 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-ibm-plex-sans: var(--font-ibm-plex-sans);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -111,9 +112,10 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.541 0.281 293.009);
 }
-::view-transition-old(root), ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 @layer base {
@@ -130,7 +132,7 @@
   }
 
   button:not(:disabled),
-  [role="button"]:not(:disabled) {
+  [role='button']:not(:disabled) {
     cursor: pointer;
   }
 
@@ -166,10 +168,10 @@
 .CollapsibleContent {
   overflow: hidden;
 }
-.CollapsibleContent[data-state="open"] {
+.CollapsibleContent[data-state='open'] {
   animation: slideDown 300ms ease-out;
 }
-.CollapsibleContent[data-state="closed"] {
+.CollapsibleContent[data-state='closed'] {
   animation: slideUp 300ms ease-out;
 }
 

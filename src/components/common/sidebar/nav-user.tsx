@@ -116,7 +116,7 @@ export function NavUser({ user }: Readonly<UserDisplayProps>) {
   );
 }
 
-function UserDisplay({ user }: Readonly<UserDisplayProps>) {
+export function UserDisplay({ user }: Readonly<UserDisplayProps>) {
   // Determine display name and identifier
   let displayName = '';
   let identifier = '';

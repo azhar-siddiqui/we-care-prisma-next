@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import { Moon, SunDim } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useEffect, useRef, useState } from "react";
-import { flushSync } from "react-dom";
-import { Button } from "../ui/button";
+import { cn } from '@/lib/utils';
+import { Moon, SunDim } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import { Button } from '../ui/button';
 
 type props = {
   className?: string;
@@ -20,7 +20,7 @@ export const AnimatedThemeToggler = ({ className }: props) => {
   const changeTheme = async () => {
     if (!buttonRef.current) return;
 
-    const newTheme = isDarkMode ? "light" : "dark";
+    const newTheme = isDarkMode ? 'light' : 'dark';
 
     await document.startViewTransition(() => {
       flushSync(() => {
@@ -29,8 +29,7 @@ export const AnimatedThemeToggler = ({ className }: props) => {
       });
     }).ready;
 
-    const { top, left, width, height } =
-      buttonRef.current.getBoundingClientRect();
+    const { top, left, width, height } = buttonRef.current.getBoundingClientRect();
     const y = top + height / 2;
     const x = left + width / 2;
 
@@ -40,29 +39,26 @@ export const AnimatedThemeToggler = ({ className }: props) => {
 
     document.documentElement.animate(
       {
-        clipPath: [
-          `circle(0px at ${x}px ${y}px)`,
-          `circle(${maxRad}px at ${x}px ${y}px)`,
-        ],
+        clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${maxRad}px at ${x}px ${y}px)`],
       },
       {
         duration: 700,
-        easing: "ease-in-out",
-        pseudoElement: "::view-transition-new(root)",
-      }
+        easing: 'ease-in-out',
+        pseudoElement: '::view-transition-new(root)',
+      },
     );
   };
 
   // Sync isDarkMode with resolvedTheme on mount
   useEffect(() => {
-    setIsDarkMode(theme === "dark");
+    setIsDarkMode(theme === 'dark');
   }, [theme]);
 
   return (
     <Button
       ref={buttonRef}
       onClick={changeTheme}
-      className={cn("border rounded-full", className)}
+      className={cn('border rounded-full', className)}
       size="icon"
       variant="outline"
     >

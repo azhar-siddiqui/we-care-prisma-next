@@ -1,7 +1,13 @@
 'use client';
 
 import { sidebarData } from '@/data/sidebar-data';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '../../ui/sidebar';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
+} from '../../ui/sidebar';
 
 import { useUser } from '@/context/user-context';
 import { NavGroup } from './nav-group';
@@ -24,6 +30,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <NavUser user={user} />
       </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 }

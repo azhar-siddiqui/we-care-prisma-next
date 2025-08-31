@@ -5,8 +5,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { UserAuthForm } from "./_components/user-auth";
+} from '@/components/ui/card';
+import { UserAuthForm } from './_components/user-auth';
 
 export default function LoginPage() {
   return (
@@ -14,8 +14,7 @@ export default function LoginPage() {
       <CardHeader>
         <CardTitle className="text-lg tracking-tight">Login</CardTitle>
         <CardDescription>
-          Enter your email and password below to{" "}
-          <br className="hidden sm:block" />
+          Enter your email and password below to <br className="hidden sm:block" />
           log into your account
         </CardDescription>
       </CardHeader>
@@ -24,20 +23,14 @@ export default function LoginPage() {
       </CardContent>
       <CardFooter>
         <p className="text-muted-foreground px-8 text-center text-sm">
-          By clicking login, you agree to our{" "}
-          <a
-            href="/terms"
-            className="hover:text-primary underline underline-offset-4"
-          >
+          By clicking login, you agree to our{' '}
+          <a href="/terms" className="hover:text-primary underline underline-offset-4">
             Terms of Service
-          </a>{" "}
-          and{" "}
-          <a
-            href="/privacy"
-            className="hover:text-primary underline underline-offset-4"
-          >
+          </a>{' '}
+          and{' '}
+          <a href="/privacy" className="hover:text-primary underline underline-offset-4">
             Privacy Policy
-          </a>{" "}
+          </a>{' '}
           .
         </p>
       </CardFooter>
