@@ -3,7 +3,7 @@ import { hashPassword } from '@/lib/auth';
 import { env } from '@/lib/env';
 import prisma from '@/lib/prisma';
 import { redis, storeOTP } from '@/lib/redis';
-import { sendVerificationEmail } from '@/lib/sendVerificationEmail';
+import { sendVerificationEmail } from '@/lib/send-verification-email';
 import { generateOtp } from '@/lib/utils';
 import { formatZodError } from '@/lib/zod-error-msg';
 import { signUpAdminSchema } from '@/validation/auth/admin/signup';

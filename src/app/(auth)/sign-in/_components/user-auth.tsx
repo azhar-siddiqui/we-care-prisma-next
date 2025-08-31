@@ -39,11 +39,11 @@ export function UserAuthForm({ className, ...props }: Readonly<UserAuthFormProps
     resolver: zodResolver(signInSchema),
     defaultValues: {
       // USER CREDENTIALS
-      email: 'azhar@wecare.com',
-      password: '123456',
+      // email: 'azhar@wecare.com',
+      // password: '123456',
       // ADMIN CREDENTIALS
-      // email: 'azhartsiddiqui@gmail.com',
-      // password: 'AzharT@1998',
+      email: 'azhartsiddiqui@gmail.com',
+      password: 'AzharT@1998',
     },
   });
 

@@ -16,11 +16,22 @@ export function generateOtp() {
   return randomBytes.toString();
 }
 
+// Type guard to check if user is LoggedInAdminUser
+export function isAdminUser(user: LoggedInAdminUser | LoggedInUser): user is LoggedInAdminUser {
+  return user.role === Role.ADMIN;
+}
+
 // Get initials for fallback (e.g., "AS" or "A")
 export function getInitialsFallbackName(user: LoggedInAdminUser | LoggedInUser | null): string {
   // Step 1: Determine fallback name based on role
-  console.log('getInitialsFallbackName', user);
-  const fallbackName = user?.role === Role.ADMIN ? 'ADMIN' : 'USER';
+  let fallbackName = '';
+  if (user) {
+    if (isAdminUser(user)) {
+      fallbackName = user.ownerName;
+    } else {
+      fallbackName = user.name;
+    }
+  }
 
   // Step 2: Generate initials from fallback name
   if (!fallbackName) return '';
@@ -28,7 +39,7 @@ export function getInitialsFallbackName(user: LoggedInAdminUser | LoggedInUser |
   if (words.length === 1) {
     return words[0][0]?.toUpperCase() ?? ''; // e.g., "Azhar" → "A"
   }
-  return (words[0][0] + (words[1][0] ?? '')).toUpperCase();
+  return (words[0][0] + (words[1][0] ?? '')).toUpperCase(); // e.g., "John Doe" → "JD"
 }
 
 export const detectOS = () => {

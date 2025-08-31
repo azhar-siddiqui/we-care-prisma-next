@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     }
 
     const decoded = await verifyToken(token);
-    if (!decoded || decoded.role !== 'ADMIN') {
+    if (!decoded || decoded.role !== Role.ADMIN) {
       return serverResponse({
         success: false,
         message: 'Forbidden: Admin access required',
@@ -97,6 +97,60 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('User creation error:', error);
+    return serverResponse({
+      success: false,
+      error: 'Internal server error',
+      status: 500,
+    });
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const token =
+      request.cookies.get('ADMIN_token')?.value ?? request.cookies.get('USER_token')?.value;
+
+    if (!token) {
+      return serverResponse({
+        success: false,
+        message: 'Unauthorized: No token provided',
+        status: 401,
+      });
+    }
+
+    // Verify token and check role
+    const decoded = await verifyToken(token);
+
+    if (!decoded || decoded.role !== Role.ADMIN) {
+      return serverResponse({
+        success: false,
+        message: 'Unauthorized: Admin access required',
+        status: 401,
+      });
+    }
+
+    const users = await prisma.user.findMany({
+      where: {
+        adminId: decoded.id,
+      },
+    });
+
+    if (!users || users.length === 0) {
+      return serverResponse({
+        success: false,
+        message: 'No users found for this admin',
+        status: 404,
+      });
+    }
+
+    return serverResponse({
+      success: true,
+      message: 'Users retrieved successfully',
+      data: users,
+      status: 200,
+    });
+  } catch (error) {
+    console.error('Get all users error:', error);
     return serverResponse({
       success: false,
       error: 'Internal server error',
