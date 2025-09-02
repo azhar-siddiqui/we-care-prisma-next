@@ -52,8 +52,8 @@ export function UserAuthForm({ className, ...props }: Readonly<UserAuthFormProps
       const response = await signInApiAction(value);
       if (response.success) {
         toast.success(`${response.message}`);
-        form.reset();
         router.replace('/dashboard');
+        form.reset();
       } else {
         toast.error(`${response.error}`);
       }
