@@ -29,7 +29,7 @@ export function ProfileDropdown() {
       const response = await logout();
       if (response.success) {
         toast.success(`${response.message}`);
-        router.push('/sign-in');
+        router.replace('/sign-in');
       } else {
         toast.error(JSON.stringify(response.error));
       }

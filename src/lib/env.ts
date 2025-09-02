@@ -1,9 +1,12 @@
-import { createEnv } from "@t3-oss/env-core";
-import { z } from "zod";
+import { createEnv } from '@t3-oss/env-core';
+import { z } from 'zod';
 
 export const env = createEnv({
   server: {
     APP_ENV: z.string().min(1),
+    ADMIN_EMAIL: z.string().min(1),
+    ADMIN_PASSWORD: z.string().min(1),
+    ADMIN_CONTACT_NUMBER: z.string().min(1),
     DATABASE_URL: z.url(),
     RESEND_API_KEY: z.string().min(1),
     JWT_SECRET: z.string().min(1),
@@ -18,7 +21,7 @@ export const env = createEnv({
    * The prefix that client-side variables must have. This is enforced both at
    * a type-level and at runtime.
    */
-  clientPrefix: "PUBLIC_",
+  clientPrefix: 'PUBLIC_',
 
   client: {},
 

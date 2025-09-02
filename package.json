@@ -14,6 +14,9 @@
     "prepare": "husky",
     "postinstall": "prisma generate"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "lint-staged": {
     "**/*.{js,jsx,tsx,ts,css,less,scss,sass}": [
       "prettier --write --no-error-on-unmatched-pattern"
@@ -73,6 +76,7 @@
     "lint-staged": "^15.5.2",
     "prisma": "^6.14.0",
     "tailwindcss": "^4",
+    "tsx": "^4.20.5",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5"
   }
