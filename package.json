@@ -12,7 +12,7 @@
     "format": "prettier --write",
     "format:fix": "prettier --write --list-different .",
     "prepare": "husky",
-    "postinstall": "prisma generate --no-engine"
+    "postinstall": "prisma generate"
   },
   "lint-staged": {
     "**/*.{js,jsx,tsx,ts,css,less,scss,sass}": [

@@ -1,9 +1,7 @@
-import { LoggedInAdminUser, LoggedInUser } from '@/@types/login-user';
 import { AppSidebar } from '@/components/common/sidebar/app-sidebar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { SearchProvider } from '@/context/search-context';
-import { UserProvider } from '@/context/user-context';
-import { verifyToken } from '@/lib/auth';
+import AuthRootLayout from '@/layout/auth-layout';
 import { cn } from '@/lib/utils';
 import { cookies } from 'next/headers';
 
@@ -15,18 +13,9 @@ export default async function RootLayout({
   // Persisting the sidebar state in the cookie.
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
-  const loggedInAdminUserToken = cookieStore.get('ADMIN_token')?.value;
-  const loggedInUserToken = cookieStore.get('USER_token')?.value;
-
-  let loggedInUser: LoggedInAdminUser | LoggedInUser | null = null;
-  if (loggedInAdminUserToken) {
-    loggedInUser = await verifyToken(loggedInAdminUserToken);
-  } else if (loggedInUserToken) {
-    loggedInUser = await verifyToken(loggedInUserToken);
-  }
 
   return (
-    <UserProvider user={loggedInUser}>
+    <AuthRootLayout>
       <SearchProvider>
         <SidebarProvider defaultOpen={defaultOpen}>
           <AppSidebar />
@@ -48,6 +37,6 @@ export default async function RootLayout({
           </SidebarInset>
         </SidebarProvider>
       </SearchProvider>
-    </UserProvider>
+    </AuthRootLayout>
   );
 }
