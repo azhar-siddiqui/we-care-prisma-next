@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     if (attempts && parseInt(attempts as string) >= maxAttempts) {
       return serverResponse({
         success: false,
-        error: 'Too many signup attempts. Try again later.',
+        error: 'Too many request. Try again later.',
         status: 429,
       });
     }

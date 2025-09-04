@@ -31,9 +31,7 @@ export const VerifyForm = () => {
   const email = searchParams.get('email') || '';
 
   // Instantly redirect to /sign-up if email is missing
-  if (!email || email === '') {
-    redirect('/sign-up');
-  }
+  if (!email || email === '') redirect('/sign-up');
 
   const [isPending, startTransition] = useTransition();
 
@@ -53,7 +51,7 @@ export const VerifyForm = () => {
       const response = await verifyEmailApiAction(verifyEmail);
       if (response.success) {
         toast.success(`${response.message}`);
-        router.push('/sign-in');
+        router.replace('/sign-in');
         form.reset();
       } else {
         toast.error(`${response.error}`);

@@ -78,7 +78,7 @@ export async function POST(request: Request) {
     } else {
       return serverResponse({
         success: false,
-        message: 'This email or username does not exist. Please register first.',
+        error: 'This email or username does not exist. Please register first.',
         status: 404,
       });
     }
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
     if ('isBlock' in loggedInUser && loggedInUser.isBlock) {
       return serverResponse({
         success: false,
-        message: 'Account is blocked',
+        error: 'Account is blocked',
         status: 403,
       });
     }

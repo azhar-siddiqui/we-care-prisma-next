@@ -50,7 +50,7 @@ export const SignUpForm = ({ className, ...props }: Readonly<SignUpFormProps>) =
       const response = await signUpApiAction(value);
       if (response.success) {
         toast.success(`${response.message}`);
-        router.push(`/verify?email=${encodeURIComponent(value.email)}`);
+        router.replace(`/verify?email=${encodeURIComponent(value.email)}`);
       } else {
         toast.error(`${response.error}`);
       }
