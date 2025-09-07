@@ -1,5 +1,5 @@
-import { ServerResponseType } from "@/@types/api-response";
-import { NextResponse } from "next/server";
+import { ServerResponseType } from '@/@types/api-response';
+import { NextResponse } from 'next/server';
 
 /**
  * A universal API response helper function for Next.js 15.

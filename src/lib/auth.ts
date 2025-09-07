@@ -1,4 +1,5 @@
 import { LoggedInAdminUser, LoggedInUser } from '@/@types/login-user';
+import { Role } from '@/generated/prisma';
 import bcrypt from 'bcryptjs';
 import * as jose from 'jose';
 import { env } from './env';
@@ -68,3 +69,7 @@ export async function verifyToken(token: string): Promise<LoggedInAdminUser | Lo
     return null;
   }
 }
+
+export const isValidRole = (role: Role): role is 'ADMIN' | 'USER' => {
+  return role === Role.ADMIN || role === Role.USER;
+};

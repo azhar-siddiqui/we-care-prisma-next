@@ -30,6 +30,30 @@ async function main() {
     },
   });
 
+  const existingSelfDoctor = await prisma.doctor.findFirst({
+    where: { doctorName: 'Self', adminId: null },
+  });
+
+  if (!existingSelfDoctor) {
+    await prisma.doctor.create({
+      data: {
+        id: '39ee36d6-229e-46e1-8c3c-ce4b14b798b2', // Use the provided ID
+        doctorName: 'Self',
+        email: null,
+        commission: 0,
+        phone: '+917558380826',
+        degree: 'self',
+        role: Role.DOCTOR,
+        adminId: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+    console.log('Created default "Self" doctor');
+  } else {
+    console.log('"Self" doctor already exists');
+  }
+
   console.log('✅ Admin seeded successfully');
 }
 

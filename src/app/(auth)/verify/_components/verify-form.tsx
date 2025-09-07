@@ -42,6 +42,8 @@ export const VerifyForm = () => {
     },
   });
 
+  const otpValue = form.watch('otp');
+
   async function onSubmit({ otp }: z.infer<typeof formSchema>) {
     const verifyEmail = {
       email,
@@ -89,7 +91,7 @@ export const VerifyForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" disabled={otpValue.length < 5 || isPending}>
           {isPending && <LoaderCircle className="size-4 animate-spin" />}
           Submit
         </Button>

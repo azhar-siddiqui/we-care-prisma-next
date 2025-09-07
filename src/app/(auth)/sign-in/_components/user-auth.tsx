@@ -26,13 +26,12 @@ import { signInSchema } from '@/validation/auth/admin/login';
 import { LoaderCircle } from 'lucide-react';
 
 import { signInApiAction } from '@/actions/auth/sign-in';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
 
 type UserAuthFormProps = HTMLAttributes<HTMLFormElement>;
 
 export function UserAuthForm({ className, ...props }: Readonly<UserAuthFormProps>) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -53,7 +52,7 @@ export function UserAuthForm({ className, ...props }: Readonly<UserAuthFormProps
       if (response.success) {
         form.reset();
         toast.success(`${response.message}`);
-        router.replace('/dashboard');
+        redirect('/dashboard');
       } else {
         toast.error(`${response.error}`);
       }

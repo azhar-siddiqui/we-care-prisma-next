@@ -15,32 +15,94 @@ enum Role {
   PATIENT
 }
 
+enum Designation {
+  Mr
+  Mrs
+  Miss
+  Baby
+  Other
+}
+
+enum Gender {
+  Male
+  Female
+  Other
+}
+
+enum Age {
+  Year
+  Month
+  Days
+}
+
 model Admin {
-  id               String   @id @default(uuid())
-  labName          String   @db.VarChar(191)
-  ownerName        String   @db.VarChar(191)
-  email            String   @unique @db.VarChar(191)
+  id               String    @id @default(uuid())
+  labName          String    @db.VarChar(191)
+  ownerName        String    @db.VarChar(191)
+  email            String    @unique @db.VarChar(191)
   password         String
-  contactNumber    String   @unique @db.VarChar(191)
-  previousSoftware String?  @db.VarChar(191)
-  role             Role     @default(ADMIN)
+  contactNumber    String    @unique @db.VarChar(191)
+  previousSoftware String?   @db.VarChar(191)
+  role             Role      @default(ADMIN)
   users            User[]
-  isVerified       Boolean  @default(false)
-  isTrialUsed      Boolean  @default(false)
-  isBlock          Boolean  @default(false)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  isVerified       Boolean   @default(false)
+  isTrialUsed      Boolean   @default(false)
+  isBlock          Boolean   @default(false)
+  Doctor           Doctor[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  Patient          Patient[]
 }
 
 model User {
-  id            String   @id @default(uuid())
-  name          String   @db.VarChar(191)
-  username      String   @unique @db.VarChar(191)
-  contactNumber String   @unique
+  id            String    @id @default(uuid())
+  name          String    @db.VarChar(191)
+  username      String    @unique @db.VarChar(191)
+  contactNumber String    @unique
   password      String
-  role          Role     @default(USER)
+  role          Role      @default(USER)
   adminId       String
-  Admin         Admin    @relation(fields: [adminId], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  Admin         Admin     @relation(fields: [adminId], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  Patient       Patient[]
+}
+
+model Doctor {
+  id           String    @id @default(uuid())
+  doctorName   String    @db.VarChar(191)
+  email        String?   @unique @db.VarChar(191)
+  commission   Int
+  phone        String    @unique @db.VarChar(191)
+  degree       String    @db.VarChar(191)
+  role         Role      @default(DOCTOR)
+  adminId      String? // Made optional to allow "Self" doctor with null adminId
+  Admin        Admin?    @relation(fields: [adminId], references: [id])
+  referredById String?   @map("referred_by_id")
+  referredBy   Doctor?   @relation("DoctorReferrals", fields: [referredById], references: [id])
+  referrals    Doctor[]  @relation("DoctorReferrals")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  Patient      Patient[]
+}
+
+model Patient {
+  id                      String      @id @default(uuid())
+  designation             Designation
+  name                    String      @db.VarChar(191)
+  phone                   String?     @db.VarChar(191)
+  gender                  Gender
+  age                     Int
+  ageType                 Age
+  email                   String?     @db.VarChar(191)
+  address                 String?     @db.VarChar(191)
+  doctorId                String
+  Doctor                  Doctor      @relation(fields: [doctorId], references: [id])
+  adminId                 String?
+  Admin                   Admin?      @relation(fields: [adminId], references: [id])
+  userId                  String?
+  User                    User?       @relation(fields: [userId], references: [id])
+  patientRegistrationDate DateTime
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
 }

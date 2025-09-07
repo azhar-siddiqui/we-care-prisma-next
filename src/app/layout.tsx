@@ -3,6 +3,7 @@ import { fontVariables } from '@/lib/font';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/provider/theme-provider';
 import type { Metadata } from 'next';
+import { Geist, Geist_Mono, IBM_Plex_Sans } from 'next/font/google';
 import './globals.css';
 
 const META_THEME_COLORS = {
@@ -46,6 +47,22 @@ export const metadata: Metadata = {
   },
 };
 
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
+
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'], // pick the weights you need
+  variable: '--font-ibm-plex-sans', // define a CSS variable
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -67,7 +84,13 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={cn('bg-background overflow-hidden overscroll-none antialiased', fontVariables)}
+        className={cn(
+          'bg-background overflow-hidden overscroll-none antialiased',
+          ibmPlexSans.variable,
+          geistSans.variable,
+          geistMono.variable,
+          fontVariables,
+        )}
         suppressHydrationWarning
       >
         <ThemeProvider
