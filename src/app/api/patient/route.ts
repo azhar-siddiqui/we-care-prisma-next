@@ -2,6 +2,7 @@ import { Role } from '@/generated/prisma';
 import serverResponse from '@/lib/api-response-helper';
 import { verifyToken } from '@/lib/auth';
 import prisma from '@/lib/prisma';
+import { isAdminUser } from '@/lib/utils';
 import { formatZodError } from '@/lib/zod-error-msg';
 import { patientRegistrationFormSchema } from '@/validation/patient-registration/patient-registration-form-validation';
 import { cookies } from 'next/headers';
@@ -33,9 +34,10 @@ export async function POST(request: NextRequest) {
 
     // Parse and validate body
     const body = await request.json();
+
     // Convert string date to Date object if it's a string
-    if (body.date && typeof body.date === 'string') {
-      body.date = new Date(body.date);
+    if (body.patientRegistrationDate && typeof body.patientRegistrationDate === 'string') {
+      body.patientRegistrationDate = new Date(body.patientRegistrationDate);
     }
 
     const parsed = patientRegistrationFormSchema.safeParse(body);
@@ -48,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     const {
-      date,
+      patientRegistrationDate,
       doctorId,
       designation,
       patientName,
@@ -71,16 +73,17 @@ export async function POST(request: NextRequest) {
         ageType,
         email,
         address,
-        patientRegistrationDate: date,
+        patientRegistrationDate,
         // Set ids depending on role
-        ...(decoded.role === Role.ADMIN && {
-          adminId: decoded.id,
-          userId: null,
-        }),
-        ...(decoded.role === Role.USER && {
-          userId: decoded.id,
-          adminId: decoded.adminId,
-        }),
+        ...(isAdminUser(decoded)
+          ? {
+              adminId: decoded.id,
+              userId: null,
+            }
+          : {
+              userId: decoded.id,
+              adminId: decoded.adminId,
+            }),
       },
       select: {
         id: true,

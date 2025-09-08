@@ -3,7 +3,7 @@ import { Age, Designation, Gender } from '@/generated/prisma';
 import z from 'zod';
 
 export const patientRegistrationFormSchema = z.object({
-  date: z.date(),
+  patientRegistrationDate: z.date(),
   doctorId: z.uuid(),
   designation: z.enum(Designation),
   patientName: z.string().min(2, { message: 'Patient name required' }),

@@ -37,11 +37,11 @@ const DoctorForm = ({ open, setOpen, fetchDoctors }: DoctorFormProp) => {
   const form = useForm<doctorFormValues>({
     resolver: zodResolver(doctorFormSchema),
     defaultValues: {
-      doctorName: 'Andrea',
+      doctorName: '',
       email: undefined,
       commission: undefined,
       phone: '',
-      degree: 'BHSM',
+      degree: '',
     },
   });
 

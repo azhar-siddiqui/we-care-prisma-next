@@ -37,12 +37,14 @@ import { addPatientApiAction } from '@/actions/patient/patient';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Age, Designation, Doctor, Gender } from '@/generated/prisma';
 import { patientRegistrationFormSchema } from '@/validation/patient-registration/patient-registration-form-validation';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import DoctorForm from './doctor-form';
 
 type patientRegistrationValues = z.infer<typeof patientRegistrationFormSchema>;
 
 export default function PatientRegistrationForm() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [isMac, setIsMac] = useState(false);
@@ -55,13 +57,13 @@ export default function PatientRegistrationForm() {
   const form = useForm<patientRegistrationValues>({
     resolver: zodResolver(patientRegistrationFormSchema),
     defaultValues: {
-      date: new Date(),
+      patientRegistrationDate: new Date(),
       doctorId: '',
       designation: Designation.Mr,
       patientName: '',
       phone: '',
       gender: Gender.Male,
-      age: 24,
+      age: undefined,
       ageType: Age.Year,
       email: '',
       address: '',
@@ -82,6 +84,7 @@ export default function PatientRegistrationForm() {
           shouldValidate: true,
           shouldDirty: true,
         });
+        router.push(`/patient-registration/${response.data?.id}`);
       } else {
         toast.error(`${response.error}`);
       }
@@ -145,7 +148,7 @@ export default function PatientRegistrationForm() {
               </h1>
               <FormField
                 control={form.control}
-                name="date"
+                name="patientRegistrationDate"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <DatetimePicker

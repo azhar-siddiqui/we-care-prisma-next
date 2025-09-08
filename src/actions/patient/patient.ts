@@ -4,7 +4,7 @@ import z from 'zod';
 
 export async function addPatientApiAction(
   data: z.infer<typeof patientRegistrationFormSchema>,
-): Promise<ServerResponseType<unknown>> {
+): Promise<ServerResponseType<{ id: string }>> {
   const response = await fetch('/api/patient', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
