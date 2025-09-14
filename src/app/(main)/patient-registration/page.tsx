@@ -1,6 +1,10 @@
 import Header from '@/components/layout/header';
 import Main from '@/components/layout/main';
-import PatientRegistrationForm from './_components/patient-registration-form';
+import dynamic from 'next/dynamic';
+
+const PatientRegistrationForm = dynamic(() => import('./_components/patient-registration-form'), {
+  loading: () => <p>Loading...</p>,
+});
 
 export default function PatientRegistrationPage() {
   return (
